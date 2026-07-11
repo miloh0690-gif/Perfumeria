@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANIMA — Maison de Parfum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #2B1D2C;
+    --bg-alt: #362437;
+    --bg-alt-2: #241823;
+    --ivory: #F1E7DA;
+    --ivory-dim: #C9B8B0;
+    --gold: #C9A15A;
+    --gold-soft: #d9bd8a;
+    --copper: #B0654A;
+    --ink: #1A1116;
+    --line: rgba(241,231,218,0.14);
+
+    --floral: #C9A15A;
+    --oriental: #8C3B2E;
+    --amaderado: #6B4A2F;
+    --fresco: #6E8B7A;
+
+    --serif: 'Fraunces', serif;
+    --sans: 'Manrope', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+
+  body{
+    background:var(--bg);
+    color:var(--ivory);
+    font-family:var(--sans);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit; cursor:pointer;}
+  img,svg{display:block; max-width:100%;}
+
+  :focus-visible{
+    outline:2px solid var(--gold);
+    outline-offset:3px;
+  }
+
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--gold);
+  }
+
+  h1,h2,h3{
+    font-family:var(--serif);
+    font-weight:500;
+    line-height:1.08;
+    letter-spacing:-0.01em;
+  }
+
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(43,29,44,0.72);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    max-width:1180px; margin:0 auto; padding:20px 32px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .logo{
+    font-family:var(--serif); font-size:22px; letter-spacing:0.14em;
+    font-weight:500;
+  }
+  .nav-links{
+    display:flex; gap:36px; align-items:center;
+    font-size:14px;
+  }
+  .nav-links a{
+    opacity:0.85; transition:opacity 0.2s ease;
+    padding:4px 0;
+    border-bottom:1px solid transparent;
+  }
+  .nav-links a:hover{opacity:1; border-color:var(--gold);}
+  .nav-right{display:flex; align-items:center; gap:20px;}
+  .cart-btn{
+    position:relative; background:none; border:1px solid var(--line);
+    border-radius:100px; width:42px; height:42px;
+    display:flex; align-items:center; justify-content:center;
+    color:var(--ivory); transition:border-color 0.2s ease;
+  }
+  .cart-btn:hover{border-color:var(--gold);}
+  .cart-count{
+    position:absolute; top:-6px; right:-6px;
+    background:var(--copper); color:var(--ivory);
+    font-family:var(--mono); font-size:10px;
+    width:18px; height:18px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .menu-toggle{display:none; background:none; border:none; color:var(--ivory);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:100vh;
+    display:flex; align-items:center;
+    position:relative;
+    padding-top:100px;
+    overflow:hidden;
+  }
+  .hero .wrap{
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:40px; align-items:center;
+  }
+  .hero-copy h1{
+    font-size:clamp(38px, 5vw, 64px);
+    margin:18px 0 22px;
+  }
+  .hero-copy p{
+    font-size:17px; color:var(--ivory-dim); max-width:440px; margin-bottom:34px;
+  }
+  .hero-cta{display:flex; gap:16px; flex-wrap:wrap;}
+  .btn{
+    font-family:var(--mono); font-size:12px; letter-spacing:0.08em; text-transform:uppercase;
+    padding:16px 28px; border-radius:2px; border:1px solid transparent;
+    display:inline-flex; align-items:center; gap:10px;
+    transition:transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  }
+  .btn-primary{background:var(--gold); color:var(--ink);}
+  .btn-primary:hover{transform:translateY(-2px); background:var(--gold-soft);}
+  .btn-ghost{border-color:var(--line); color:var(--ivory);}
+  .btn-ghost:hover{border-color:var(--gold); transform:translateY(-2px);}
+  .btn-block{width:100%; justify-content:center;}
+
+  .hero-visual{
+    position:relative; aspect-ratio:1/1; display:flex; align-items:center; justify-content:center;
+  }
+  .bloom{
+    position:absolute; inset:0; border-radius:50%;
+    background:radial-gradient(circle at 40% 35%, rgba(201,161,90,0.35), rgba(176,101,74,0.25) 45%, transparent 72%);
+    filter:blur(6px);
+    animation:breathe 7s ease-in-out infinite;
+  }
+  @keyframes breathe{
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.06);}
+  }
+  .hero-visual svg{position:relative; z-index:1; width:78%;}
+
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:120px 0;}
+  .section-head{max-width:600px; margin-bottom:64px;}
+  .section-head h2{font-size:clamp(28px,3.4vw,42px); margin-top:14px;}
+  .section-head p{color:var(--ivory-dim); margin-top:16px; font-size:16px;}
+  .alt-bg{background:var(--bg-alt);}
+
+  /* ---------- RITUAL / QUIZ ---------- */
+  .ritual-panel{
+    background:var(--bg-alt-2);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:56px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:48px;
+    align-items:center;
+    min-height:520px;
+  }
+  .step-track{
+    display:flex; gap:8px; margin-bottom:28px; font-family:var(--mono); font-size:11px; color:var(--ivory-dim); letter-spacing:0.08em;
+  }
+  .step-track span{opacity:0.35;}
+  .step-track span.active{opacity:1; color:var(--gold);}
+
+  .quiz-stage{display:none;}
+  .quiz-stage.active{display:block; animation:fadein 0.4s ease;}
+  @keyframes fadein{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+  .quiz-stage h3{font-size:26px; margin-bottom:24px;}
+
+  .wheel-wrap{display:flex; align-items:center; justify-content:center;}
+  .wheel{width:100%; max-width:320px;}
+  .wheel path{
+    fill:var(--bg-alt); stroke:var(--bg); stroke-width:2;
+    transition:fill 0.25s ease;
+    cursor:pointer;
+  }
+  .wheel path:hover, .wheel path.selected{fill:var(--gold);}
+  .wheel path.selected{fill:var(--gold);}
+  .wheel text{
+    fill:var(--ivory); font-family:var(--mono); font-size:11px; letter-spacing:0.05em;
+    text-anchor:middle; pointer-events:none; text-transform:uppercase;
+  }
+  .wheel .center-label{fill:var(--ivory-dim); font-size:10px;}
+
+  .choice-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  .choice-grid.mood{grid-template-columns:1fr 1fr;}
+  .choice-card{
+    border:1px solid var(--line); background:var(--bg-alt); border-radius:4px;
+    padding:22px 20px; text-align:left; color:var(--ivory);
+    transition:border-color 0.2s ease, transform 0.2s ease;
+  }
+  .choice-card:hover{border-color:var(--gold); transform:translateY(-2px);}
+  .choice-card.selected{border-color:var(--gold); background:rgba(201,161,90,0.12);}
+  .choice-card .cc-title{font-family:var(--serif); font-size:19px; display:block; margin-bottom:4px;}
+  .choice-card .cc-sub{font-size:12.5px; color:var(--ivory-dim);}
+
+  .quiz-nav{display:flex; justify-content:space-between; margin-top:32px;}
+  .link-btn{font-family:var(--mono); font-size:12px; letter-spacing:0.05em; color:var(--ivory-dim); border-bottom:1px solid transparent;}
+  .link-btn:hover{color:var(--gold); border-color:var(--gold);}
+
+  .result-card{display:flex; flex-direction:column; gap:16px;}
+  .result-bottle{width:120px; margin:0 auto 4px;}
+  .result-family{font-family:var(--mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); text-align:center;}
+  .result-name{font-size:32px; text-align:center;}
+  .result-desc{color:var(--ivory-dim); text-align:center; font-style:italic; font-family:var(--serif); font-size:16px;}
+  .result-notes{display:flex; justify-content:center; gap:22px; font-family:var(--mono); font-size:11px; color:var(--ivory-dim); flex-wrap:wrap; margin-top:6px;}
+  .result-notes b{display:block; color:var(--gold); margin-bottom:3px; letter-spacing:0.05em;}
+  .result-price{text-align:center; font-family:var(--serif); font-size:22px; margin-top:6px;}
+  .result-actions{display:flex; gap:12px; justify-content:center; margin-top:10px; flex-wrap:wrap;}
+
+  /* ---------- COLLECTION ---------- */
+  .grid-products{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:28px;
+  }
+  .card{
+    background:var(--bg-alt); border:1px solid var(--line); border-radius:6px;
+    padding:32px 26px; display:flex; flex-direction:column;
+    transition:transform 0.25s ease, border-color 0.25s ease;
+  }
+  .card:hover{transform:translateY(-4px); border-color:var(--gold);}
+  .card-bottle{height:130px; display:flex; align-items:center; justify-content:center; margin-bottom:18px;}
+  .card-family{font-family:var(--mono); font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold);}
+  .card-name{font-size:23px; margin:8px 0 10px;}
+  .card-desc{font-size:13.5px; color:var(--ivory-dim); font-style:italic; font-family:var(--serif); margin-bottom:14px; min-height:36px;}
+  .card-notes{font-family:var(--mono); font-size:11px; color:var(--ivory-dim); line-height:1.8; margin-bottom:20px; border-top:1px solid var(--line); padding-top:14px;}
+  .card-notes b{color:var(--ivory);}
+  .card-foot{display:flex; align-items:center; justify-content:space-between; margin-top:auto;}
+  .card-price{font-family:var(--serif); font-size:20px;}
+  .add-btn{
+    background:none; border:1px solid var(--gold); color:var(--gold);
+    padding:10px 16px; border-radius:2px; font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase;
+    transition:background 0.2s ease, color 0.2s ease;
+  }
+  .add-btn:hover{background:var(--gold); color:var(--ink);}
+
+  /* ---------- MAISON ---------- */
+  .maison-grid{display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center;}
+  .maison-copy p{color:var(--ivory-dim); margin-bottom:16px; font-size:15.5px; max-width:480px;}
+  .facts{display:flex; margin-top:36px; border-top:1px solid var(--line);}
+  .fact{flex:1; padding:22px 20px 0 0; border-right:1px solid var(--line);}
+  .fact:last-child{border-right:none;}
+  .fact-val{font-family:var(--serif); font-size:24px; color:var(--gold);}
+  .fact-label{font-family:var(--mono); font-size:10.5px; color:var(--ivory-dim); letter-spacing:0.05em; margin-top:6px; text-transform:uppercase;}
+  .maison-visual{aspect-ratio:4/5; border-radius:6px; background:linear-gradient(160deg, var(--bg-alt), var(--bg-alt-2)); border:1px solid var(--line); display:flex; align-items:center; justify-content:center;}
+
+  /* ---------- NEWSLETTER / FOOTER ---------- */
+  .newsletter{
+    background:var(--bg-alt-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    padding:80px 0; text-align:center;
+  }
+  .newsletter h2{font-size:clamp(24px,3vw,34px); margin-bottom:14px;}
+  .newsletter p{color:var(--ivory-dim); margin-bottom:30px;}
+  .nl-form{display:flex; gap:10px; max-width:420px; margin:0 auto; flex-wrap:wrap; justify-content:center;}
+  .nl-form input{
+    flex:1; min-width:220px; background:var(--bg-alt); border:1px solid var(--line); color:var(--ivory);
+    padding:14px 16px; border-radius:2px; font-family:var(--sans); font-size:14px;
+  }
+  .nl-form input:focus{border-color:var(--gold); outline:none;}
+  .nl-note{font-family:var(--mono); font-size:11px; color:var(--gold); margin-top:14px; opacity:0; transition:opacity 0.3s ease;}
+  .nl-note.show{opacity:1;}
+
+  footer{padding:64px 0 40px;}
+  .foot-grid{display:flex; justify-content:space-between; flex-wrap:wrap; gap:32px; margin-bottom:40px;}
+  .foot-links{display:flex; gap:44px; flex-wrap:wrap;}
+  .foot-col h4{font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold); margin-bottom:14px;}
+  .foot-col a{display:block; font-size:14px; color:var(--ivory-dim); margin-bottom:10px;}
+  .foot-col a:hover{color:var(--ivory);}
+  .foot-bottom{border-top:1px solid var(--line); padding-top:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; font-family:var(--mono); font-size:11px; color:var(--ivory-dim);}
+
+  /* ---------- CART DRAWER ---------- */
+  .overlay{
+    position:fixed; inset:0; background:rgba(26,17,22,0.6); z-index:200;
+    opacity:0; pointer-events:none; transition:opacity 0.3s ease;
+  }
+  .overlay.show{opacity:1; pointer-events:auto;}
+  .drawer{
+    position:fixed; top:0; right:0; bottom:0; width:400px; max-width:92vw;
+    background:var(--bg-alt-2); z-index:201; border-left:1px solid var(--line);
+    display:flex; flex-direction:column;
+    transform:translateX(100%); transition:transform 0.35s ease;
+  }
+  .drawer.show{transform:translateX(0);}
+  .drawer-head{padding:26px 26px 20px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--line);}
+  .drawer-head h3{font-size:20px;}
+  .icon-btn{background:none; border:none; color:var(--ivory); opacity:0.7;}
+  .icon-btn:hover{opacity:1;}
+  .drawer-items{flex:1; overflow-y:auto; padding:20px 26px;}
+  .drawer-empty{color:var(--ivory-dim); font-size:14px; text-align:center; margin-top:60px; font-family:var(--serif); font-style:italic;}
+  .cart-item{display:flex; gap:14px; padding:16px 0; border-bottom:1px solid var(--line);}
+  .cart-item-bottle{width:46px; height:60px; flex-shrink:0;}
+  .cart-item-info{flex:1;}
+  .cart-item-info .ci-name{font-size:15px; margin-bottom:4px;}
+  .cart-item-info .ci-family{font-family:var(--mono); font-size:10px; color:var(--ivory-dim); text-transform:uppercase;}
+  .qty-row{display:flex; align-items:center; gap:10px; margin-top:8px;}
+  .qty-btn{width:24px; height:24px; border:1px solid var(--line); background:none; color:var(--ivory); border-radius:2px; font-size:13px; line-height:1;}
+  .qty-btn:hover{border-color:var(--gold);}
+  .ci-remove{font-family:var(--mono); font-size:10.5px; color:var(--copper); margin-top:8px; display:inline-block;}
+  .ci-price{font-family:var(--serif); font-size:15px; white-space:nowrap;}
+  .drawer-foot{padding:22px 26px 28px; border-top:1px solid var(--line);}
+  .subtotal-row{display:flex; justify-content:space-between; margin-bottom:18px; font-family:var(--mono); font-size:13px;}
+  .subtotal-row b{font-family:var(--serif); font-size:20px;}
+
+  /* ---------- CHECKOUT MODAL ---------- */
+  .modal{
+    position:fixed; inset:0; z-index:250; display:flex; align-items:center; justify-content:center;
+    opacity:0; pointer-events:none; transition:opacity 0.3s ease; padding:20px;
+  }
+  .modal.show{opacity:1; pointer-events:auto;}
+  .modal-box{
+    background:var(--bg-alt); border:1px solid var(--line); border-radius:6px;
+    max-width:760px; width:100%; max-height:88vh; overflow-y:auto;
+    display:grid; grid-template-columns:1.2fr 1fr;
+  }
+  .modal-form{padding:40px;}
+  .modal-summary{padding:40px; background:var(--bg-alt-2); border-left:1px solid var(--line);}
+  .modal-box h3{font-size:24px; margin-bottom:6px;}
+  .modal-box .sub{color:var(--ivory-dim); font-size:13px; margin-bottom:26px;}
+  .field{margin-bottom:16px;}
+  .field label{display:block; font-family:var(--mono); font-size:10.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--ivory-dim); margin-bottom:7px;}
+  .field input{
+    width:100%; background:var(--bg); border:1px solid var(--line); color:var(--ivory);
+    padding:12px 14px; border-radius:2px; font-family:var(--sans); font-size:14px;
+  }
+  .field input:focus{border-color:var(--gold); outline:none;}
+  .field-row{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  .modal-close{position:absolute; top:22px; right:22px;}
+  .modal-box{position:relative;}
+  .summary-item{display:flex; justify-content:space-between; font-size:13px; margin-bottom:10px; color:var(--ivory-dim);}
+  .summary-total{display:flex; justify-content:space-between; border-top:1px solid var(--line); margin-top:16px; padding-top:16px; font-family:var(--serif); font-size:20px;}
+  .confirm-view{display:none; padding:60px 40px; text-align:center; grid-column:1/-1;}
+  .confirm-view.show{display:block;}
+  .confirm-icon{width:56px; height:56px; margin:0 auto 22px;}
+  .confirm-order{font-family:var(--mono); color:var(--gold); font-size:13px; margin:14px 0 26px;}
+
+  /* ---------- TOAST ---------- */
+  .toast{
+    position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--ivory); color:var(--ink); padding:14px 24px; border-radius:3px;
+    font-family:var(--mono); font-size:12.5px; letter-spacing:0.03em;
+    z-index:300; opacity:0; pointer-events:none; transition:all 0.3s ease;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media(max-width:920px){
+    .hero .wrap{grid-template-columns:1fr; text-align:center;}
+    .hero-copy p{margin-left:auto; margin-right:auto;}
+    .hero-cta{justify-content:center;}
+    .hero-visual{order:-1; max-width:280px; margin:0 auto;}
+    .ritual-panel{grid-template-columns:1fr; padding:36px 24px;}
+    .grid-products{grid-template-columns:repeat(2,1fr);}
+    .maison-grid{grid-template-columns:1fr;}
+    .modal-box{grid-template-columns:1fr;}
+    .modal-summary{border-left:none; border-top:1px solid var(--line);}
+    .nav-links{display:none;}
+    .menu-toggle{display:block;}
+  }
+  @media(max-width:620px){
+    .wrap{padding:0 20px;}
+    section{padding:80px 0;}
+    .grid-products{grid-template-columns:1fr;}
+    .facts{flex-direction:column;}
+    .fact{border-right:none; border-bottom:1px solid var(--line); padding:18px 0;}
+    .field-row{grid-template-columns:1fr;}
+    .drawer{width:100vw;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <nav>
+    <a href="#top" class="logo">ANIMA</a>
+    <div class="nav-links" id="navLinks">
+      <a href="#coleccion">Colección</a>
+      <a href="#ritual">El Ritual</a>
+      <a href="#maison">La Maison</a>
+      <a href="#newsletter">Contacto</a>
+    </div>
+    <div class="nav-right">
+      <button class="cart-btn" id="cartBtn" aria-label="Abrir carrito">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h2l2.4 12.2a2 2 0 0 0 2 1.8h8.2a2 2 0 0 0 2-1.6L21 9H6"/><circle cx="10" cy="21" r="1"/><circle cx="18" cy="21" r="1"/></svg>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="eyebrow">Maison de Parfum</span>
+      <h1>Un perfume no se elige.<br>Se reconoce.</h1>
+      <p>Seis fragancias, cada una la versión distinta de una misma persona. Responde tres preguntas — ninguna sobre perfume — y deja que el Ritual encuentre la tuya.</p>
+      <div class="hero-cta">
+        <a href="#ritual" class="btn btn-primary">Comenzar el Ritual</a>
+        <a href="#coleccion" class="btn btn-ghost">Ver la colección</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="bloom"></div>
+      <svg viewBox="0 0 200 260" fill="none">
+        <rect x="70" y="40" width="60" height="16" rx="3" fill="var(--gold)"/>
+        <rect x="82" y="20" width="36" height="24" rx="4" fill="var(--gold-soft)"/>
+        <path d="M60 56 Q60 50 70 50 H130 Q140 50 140 56 V220 Q140 240 120 240 H80 Q60 240 60 220 Z" fill="var(--bg-alt)" stroke="var(--gold)" stroke-width="1.5"/>
+        <path d="M64 100 Q64 96 70 96 H130 Q136 96 136 100 V218 Q136 236 118 236 H82 Q64 236 64 218 Z" fill="var(--copper)" opacity="0.55"/>
+        <text x="100" y="150" text-anchor="middle" fill="var(--ivory)" font-family="'Fraunces',serif" font-size="15" letter-spacing="2">ANIMA</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RITUAL / QUIZ ============ -->
+<section id="ritual" class="alt-bg">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">El Ritual del Aroma</span>
+      <h2>El motor que elige por ti — sin decidir por ti</h2>
+      <p>Un recorrido de tres pasos que traduce estado de ánimo en fragancia. Al final, tu recomendación llega lista para añadir al carrito.</p>
+    </div>
+
+    <div class="ritual-panel">
+      <div>
+        <div class="step-track">
+          <span id="tr1" class="active">01 · Familia</span>
+          <span id="tr2">02 · Momento</span>
+          <span id="tr3">03 · Ánimo</span>
+        </div>
+
+        <!-- STEP 1: WHEEL -->
+        <div class="quiz-stage active" id="stage1">
+          <h3>Elige la familia que te llama</h3>
+          <div class="wheel-wrap">
+            <svg class="wheel" viewBox="0 0 300 300">
+              <path d="M150,10 A140,140 0 0,1 290,150 L210,150 A60,60 0 0,0 150,90 Z" data-family="floral"></path>
+              <path d="M290,150 A140,140 0 0,1 150,290 L150,210 A60,60 0 0,0 210,150 Z" data-family="oriental"></path>
+              <path d="M150,290 A140,140 0 0,1 10,150 L90,150 A60,60 0 0,0 150,210 Z" data-family="amaderado"></path>
+              <path d="M10,150 A140,140 0 0,1 150,10 L150,90 A60,60 0 0,0 90,150 Z" data-family="fresco"></path>
+              <text x="220.7" y="79.3">Floral</text>
+              <text x="220.7" y="224.7">Oriental</text>
+              <text x="79.3" y="224.7">Amaderado</text>
+              <text x="79.3" y="75.3">Fresco</text>
+              <circle cx="150" cy="150" r="58" fill="var(--bg-alt-2)" stroke="var(--line)"/>
+              <text x="150" y="146" class="center-label">Rueda del</text>
+              <text x="150" y="160" class="center-label">Aroma</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- STEP 2: MOMENT -->
+        <div class="quiz-stage" id="stage2">
+          <h3>¿Cuándo te la pones?</h3>
+          <div class="choice-grid">
+            <button class="choice-card" data-moment="dia">
+              <span class="cc-title">Día</span>
+              <span class="cc-sub">Luz clara, movimiento, gente</span>
+            </button>
+            <button class="choice-card" data-moment="noche">
+              <span class="cc-title">Noche</span>
+              <span class="cc-sub">Penumbra, pausa, cercanía</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- STEP 3: MOOD -->
+        <div class="quiz-stage" id="stage3">
+          <h3>¿Qué buscas hoy?</h3>
+          <div class="choice-grid mood">
+            <button class="choice-card" data-mood="energia">
+              <span class="cc-title">Energía</span>
+              <span class="cc-sub">Empezar algo</span>
+            </button>
+            <button class="choice-card" data-mood="calma">
+              <span class="cc-title">Calma</span>
+              <span class="cc-sub">Volver al centro</span>
+            </button>
+            <button class="choice-card" data-mood="misterio">
+              <span class="cc-title">Misterio</span>
+              <span class="cc-sub">No decirlo todo</span>
+            </button>
+            <button class="choice-card" data-mood="seduccion">
+              <span class="cc-title">Seducción</span>
+              <span class="cc-sub">Dejar una estela</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="quiz-nav">
+          <button class="link-btn" id="quizBack" style="visibility:hidden;">← Volver</button>
+          <button class="link-btn" id="quizReset" style="visibility:hidden;">Repetir el Ritual</button>
+        </div>
+      </div>
+
+      <!-- RESULT -->
+      <div>
+        <div class="quiz-stage" id="stageResult">
+          <div class="result-card">
+            <div class="result-bottle" id="resultBottle"></div>
+            <span class="result-family" id="resultFamily"></span>
+            <h3 class="result-name" id="resultName"></h3>
+            <p class="result-desc" id="resultDesc"></p>
+            <div class="result-notes">
+              <div><b>Salida</b><span id="rNotesTop"></span></div>
+              <div><b>Corazón</b><span id="rNotesHeart"></span></div>
+              <div><b>Fondo</b><span id="rNotesBase"></span></div>
+            </div>
+            <div class="result-price" id="resultPrice"></div>
+            <div class="result-actions">
+              <button class="btn btn-primary" id="resultAdd">Añadir al carrito</button>
+              <a href="#coleccion" class="btn btn-ghost">Ver toda la colección</a>
+            </div>
+          </div>
+        </div>
+        <div id="quizPlaceholder" style="display:flex; align-items:center; justify-content:center; height:100%; min-height:300px; color:var(--ivory-dim); font-family:var(--serif); font-style:italic; text-align:center; padding:0 20px;">
+          Tu recomendación aparecerá aquí al terminar el Ritual.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COLECCIÓN ============ -->
+<section id="coleccion">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">La Colección</span>
+      <h2>Seis fragancias, seis versiones de ti</h2>
+      <p>Cada frasco numerado a mano, macerado en frío durante ocho semanas antes de embotellarse.</p>
+    </div>
+    <div class="grid-products" id="productGrid"></div>
+  </div>
+</section>
+
+<!-- ============ MAISON ============ -->
+<section id="maison" class="alt-bg">
+  <div class="wrap">
+    <div class="maison-grid">
+      <div class="maison-copy">
+        <span class="eyebrow">La Maison</span>
+        <h2 style="font-size:34px; margin:14px 0 20px;">Perfumería hecha a la velocidad del olfato, no del calendario</h2>
+        <p>ANIMA nace de una idea simple: la mayoría de los perfumes se compran por nombre, no por afinidad. Construimos el Ritual del Aroma para invertir ese orden — primero la persona, después el frasco.</p>
+        <p>Trabajamos con un círculo pequeño de perfumistas independientes en Grasse, Florencia y Oaxaca, y limitamos cada lote para mantener el control sobre la maceración.</p>
+        <div class="facts">
+          <div class="fact">
+            <div class="fact-val">8 semanas</div>
+            <div class="fact-label">Maceración en frío</div>
+          </div>
+          <div class="fact">
+            <div class="fact-val">42 esencias</div>
+            <div class="fact-label">De 11 países de origen</div>
+          </div>
+          <div class="fact">
+            <div class="fact-val">1 / 500</div>
+            <div class="fact-label">Frascos numerados por lote</div>
+          </div>
+        </div>
+      </div>
+      <div class="maison-visual">
+        <svg width="55%" viewBox="0 0 120 120" fill="none">
+          <circle cx="60" cy="60" r="58" stroke="var(--gold)" stroke-width="1"/>
+          <circle cx="60" cy="60" r="40" stroke="var(--line)" stroke-width="1"/>
+          <circle cx="60" cy="60" r="22" stroke="var(--line)" stroke-width="1"/>
+          <text x="60" y="64" text-anchor="middle" fill="var(--ivory)" font-family="'Fraunces',serif" font-size="13" letter-spacing="2">A</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NEWSLETTER ============ -->
+<section class="newsletter" id="newsletter">
+  <div class="wrap">
+    <span class="eyebrow">Acceso anticipado</span>
+    <h2 style="margin-top:14px;">Sé el primero en oler lo que sigue</h2>
+    <p>Un correo al mes. Nunca más. Lotes limitados y notas de perfumista antes del lanzamiento.</p>
+    <form class="nl-form" id="nlForm">
+      <input type="email" placeholder="tu@correo.com" required aria-label="Correo electrónico">
+      <button type="submit" class="btn btn-primary">Suscribirme</button>
+    </form>
+    <div class="nl-note" id="nlNote">Listo. Revisa tu bandeja de entrada para confirmar.</div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="logo" style="margin-bottom:14px;">ANIMA</div>
+        <p style="color:var(--ivory-dim); font-size:13.5px; max-width:260px;">Maison de Parfum independiente. Frascos numerados, lotes limitados.</p>
+      </div>
+      <div class="foot-links">
+        <div class="foot-col">
+          <h4>Explorar</h4>
+          <a href="#coleccion">Colección</a>
+          <a href="#ritual">El Ritual</a>
+          <a href="#maison">La Maison</a>
+        </div>
+        <div class="foot-col">
+          <h4>Ayuda</h4>
+          <a href="#">Envíos</a>
+          <a href="#">Devoluciones</a>
+          <a href="#">Contacto</a>
+        </div>
+        <div class="foot-col">
+          <h4>Legal</h4>
+          <a href="#">Privacidad</a>
+          <a href="#">Términos</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 ANIMA MAISON DE PARFUM</span>
+      <span>DISEÑADO PARA OLERSE, NO SOLO LEERSE</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ CART DRAWER ============ -->
+<div class="overlay" id="overlay"></div>
+<div class="drawer" id="cartDrawer">
+  <div class="drawer-head">
+    <h3>Tu carrito</h3>
+    <button class="icon-btn" id="closeCart" aria-label="Cerrar carrito">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div class="drawer-items" id="drawerItems"></div>
+  <div class="drawer-foot">
+    <div class="subtotal-row"><span>Subtotal</span><b id="cartSubtotal">$0</b></div>
+    <button class="btn btn-primary btn-block" id="checkoutBtn">Finalizar compra</button>
+  </div>
+</div>
+
+<!-- ============ CHECKOUT MODAL ============ -->
+<div class="modal" id="checkoutModal">
+  <div class="modal-box">
+    <button class="icon-btn modal-close" id="closeModal" aria-label="Cerrar">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+
+    <div id="checkoutFormView">
+      <div class="modal-form">
+        <h3>Finalizar compra</h3>
+        <p class="sub">Pago simulado — sin cargos reales.</p>
+        <form id="checkoutForm">
+          <div class="field"><label>Nombre completo</label><input type="text" required></div>
+          <div class="field"><label>Correo electrónico</label><input type="email" required></div>
+          <div class="field"><label>Dirección de envío</label><input type="text" required></div>
+          <div class="field-row">
+            <div class="field"><label>Ciudad</label><input type="text" required></div>
+            <div class="field"><label>Código postal</label><input type="text" required></div>
+          </div>
+          <div class="field"><label>Número de tarjeta</label><input type="text" placeholder="4242 4242 4242 4242" maxlength="19" required></div>
+          <div class="field-row">
+            <div class="field"><label>Vencimiento</label><input type="text" placeholder="MM/AA" maxlength="5" required></div>
+            <div class="field"><label>CVV</label><input type="text" placeholder="123" maxlength="3" required></div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" style="margin-top:8px;">Confirmar pedido</button>
+        </form>
+      </div>
+      <div class="modal-summary">
+        <h3 style="font-size:17px; margin-bottom:20px;">Resumen del pedido</h3>
+        <div id="summaryItems"></div>
+        <div class="summary-total"><span>Total</span><span id="summaryTotal">$0</span></div>
+      </div>
+    </div>
+
+    <div class="confirm-view" id="confirmView">
+      <svg class="confirm-icon" viewBox="0 0 60 60" fill="none">
+        <circle cx="30" cy="30" r="28" stroke="var(--gold)" stroke-width="1.5"/>
+        <path d="M18 31l8 8 16-18" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <h3>Pedido confirmado</h3>
+      <p style="color:var(--ivory-dim); margin-top:10px;">Tu ritual acaba de empezar. Enviaremos la confirmación a tu correo.</p>
+      <div class="confirm-order" id="orderNumber"></div>
+      <button class="btn btn-ghost" id="confirmClose">Seguir explorando</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ DATA ============ */
+const PRODUCTS = [
+  { id:'rosae', name:'ANIMA Rosae', family:'floral', familyLabel:'Floral', desc:'Una rosa que respira en lugar de declamar.',
+    notes:{top:'Pera, Bergamota', heart:'Rosa búlgara, Peonía', base:'Almizcle blanco, Madera de haya'},
+    price:189, mood:'calma', moment:'dia' },
+  { id:'aurum', name:'ANIMA Aurum', family:'floral', familyLabel:'Floral Ambarado', desc:'Luz de media tarde convertida en estela.',
+    notes:{top:'Bergamota, Mandarina', heart:'Jazmín, Azahar', base:'Ámbar claro, Cedro'},
+    price:205, mood:'seduccion', moment:'dia' },
+  { id:'noctis', name:'ANIMA Noctis', family:'oriental', familyLabel:'Oriental', desc:'La versión de ti que no explica sus silencios.',
+    notes:{top:'Pimienta rosa, Cardamomo', heart:'Oud, Incienso', base:'Vainilla, Benjuí'},
+    price:230, mood:'misterio', moment:'noche' },
+  { id:'umbra', name:'ANIMA Umbra', family:'oriental', familyLabel:'Oriental Amaderado', desc:'Cuero tibio bajo una promesa que tarda en cumplirse.',
+    notes:{top:'Canela, Bayas rosas', heart:'Cuero, Oud', base:'Haba tonka, Ámbar'},
+    price:225, mood:'seduccion', moment:'noche' },
+  { id:'terra', name:'ANIMA Terra', family:'amaderado', familyLabel:'Amaderado', desc:'La calma de un bosque que ya conoce tu paso.',
+    notes:{top:'Cardamomo, Pimienta negra', heart:'Sándalo, Vetiver', base:'Cedro, Pachulí'},
+    price:210, mood:'calma', moment:'noche' },
+  { id:'vento', name:'ANIMA Vento', family:'fresco', familyLabel:'Fresco Cítrico', desc:'El primer respiro del día, embotellado.',
+    notes:{top:'Limón, Pomelo', heart:'Té verde, Hierba de limón', base:'Almizcle, Vetiver'},
+    price:175, mood:'energia', moment:'dia' },
+];
+
+let cart = []; // {id, qty}
+
+/* ============ BOTTLE SVG ============ */
+function bottleSvg(family, size){
+  const color = `var(--${family})`;
+  return `<svg viewBox="0 0 100 130" width="${size}" fill="none">
+    <rect x="38" y="10" width="24" height="10" rx="2" fill="${color}"/>
+    <rect x="43" y="2" width="14" height="10" rx="3" fill="${color}" opacity="0.8"/>
+    <path d="M30 24 Q30 20 36 20 H64 Q70 20 70 24 V112 Q70 124 58 124 H42 Q30 124 30 112 Z" fill="var(--bg)" stroke="${color}" stroke-width="1.4"/>
+    <path d="M33 55 Q33 51 37 51 H63 Q67 51 67 55 V111 Q67 121 57 121 H43 Q33 121 33 111 Z" fill="${color}" opacity="0.5"/>
+  </svg>`;
+}
+
+/* ============ RENDER PRODUCT GRID ============ */
+const grid = document.getElementById('productGrid');
+PRODUCTS.forEach(p=>{
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <div class="card-bottle">${bottleSvg(p.family, 80)}</div>
+    <span class="card-family">${p.familyLabel}</span>
+    <h3 class="card-name">${p.name}</h3>
+    <p class="card-desc">${p.desc}</p>
+    <div class="card-notes">
+      <div><b>Salida:</b> ${p.notes.top}</div>
+      <div><b>Corazón:</b> ${p.notes.heart}</div>
+      <div><b>Fondo:</b> ${p.notes.base}</div>
+    </div>
+    <div class="card-foot">
+      <span class="card-price">$${p.price}</span>
+      <button class="add-btn" data-id="${p.id}">Añadir</button>
+    </div>`;
+  grid.appendChild(card);
+});
+grid.addEventListener('click', e=>{
+  if(e.target.classList.contains('add-btn')){
+    addToCart(e.target.dataset.id);
+  }
+});
+
+/* ============ CART LOGIC ============ */
+function addToCart(id){
+  const existing = cart.find(c=>c.id===id);
+  if(existing){ existing.qty++; } else { cart.push({id, qty:1}); }
+  renderCart();
+  showToast(`${PRODUCTS.find(p=>p.id===id).name} añadido al carrito`);
+  openCart();
+}
+function changeQty(id, delta){
+  const item = cart.find(c=>c.id===id);
+  if(!item) return;
+  item.qty += delta;
+  if(item.qty <= 0) cart = cart.filter(c=>c.id!==id);
+  renderCart();
+}
+function removeFromCart(id){
+  cart = cart.filter(c=>c.id!==id);
+  renderCart();
+}
+function cartTotal(){
+  return cart.reduce((sum,c)=>{
+    const p = PRODUCTS.find(pr=>pr.id===c.id);
+    return sum + p.price * c.qty;
+  },0);
+}
+function renderCart(){
+  const count = cart.reduce((s,c)=>s+c.qty,0);
+  document.getElementById('cartCount').textContent = count;
+  const container = document.getElementById('drawerItems');
+  if(cart.length===0){
+    container.innerHTML = `<div class="drawer-empty">Tu carrito está vacío.<br>El Ritual puede ayudarte a llenarlo.</div>`;
+  } else {
+    container.innerHTML = cart.map(c=>{
+      const p = PRODUCTS.find(pr=>pr.id===c.id);
+      return `<div class="cart-item">
+        <div class="cart-item-bottle">${bottleSvg(p.family, 46)}</div>
+        <div class="cart-item-info">
+          <div class="ci-name">${p.name}</div>
+          <div class="ci-family">${p.familyLabel}</div>
+          <div class="qty-row">
+            <button class="qty-btn" data-action="dec" data-id="${p.id}">−</button>
+            <span>${c.qty}</span>
+            <button class="qty-btn" data-action="inc" data-id="${p.id}">+</button>
+          </div>
+          <a class="ci-remove" data-action="remove" data-id="${p.id}">Quitar</a>
+        </div>
+        <div class="ci-price">$${p.price * c.qty}</div>
+      </div>`;
+    }).join('');
+  }
+  document.getElementById('cartSubtotal').textContent = `$${cartTotal()}`;
+}
+document.getElementById('drawerItems').addEventListener('click', e=>{
+  const id = e.target.dataset.id;
+  const action = e.target.dataset.action;
+  if(!id) return;
+  if(action==='inc') changeQty(id, 1);
+  if(action==='dec') changeQty(id, -1);
+  if(action==='remove') removeFromCart(id);
+});
+
+/* ============ DRAWER OPEN/CLOSE ============ */
+const overlay = document.getElementById('overlay');
+const drawer = document.getElementById('cartDrawer');
+function openCart(){ overlay.classList.add('show'); drawer.classList.add('show'); }
+function closeCartFn(){ overlay.classList.remove('show'); drawer.classList.remove('show'); }
+document.getElementById('cartBtn').addEventListener('click', openCart);
+document.getElementById('closeCart').addEventListener('click', closeCartFn);
+overlay.addEventListener('click', ()=>{ closeCartFn(); closeModalFn(); });
+
+/* ============ TOAST ============ */
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(()=>t.classList.remove('show'), 2400);
+}
+
+/* ============ QUIZ ============ */
+let quizState = { family:null, moment:null, mood:null };
+const stages = ['stage1','stage2','stage3'];
+let currentStage = 0;
+
+function showStage(idx){
+  stages.forEach((id,i)=>document.getElementById(id).classList.toggle('active', i===idx));
+  ['tr1','tr2','tr3'].forEach((id,i)=>document.getElementById(id).classList.toggle('active', i===idx));
+  document.getElementById('quizBack').style.visibility = idx>0 ? 'visible' : 'hidden';
+  document.getElementById('quizPlaceholder').style.display = 'flex';
+  document.getElementById('stageResult').classList.remove('active');
+  currentStage = idx;
+}
+
+document.querySelectorAll('.wheel path').forEach(path=>{
+  path.addEventListener('click', ()=>{
+    document.querySelectorAll('.wheel path').forEach(p=>p.classList.remove('selected'));
+    path.classList.add('selected');
+    quizState.family = path.dataset.family;
+    setTimeout(()=>showStage(1), 250);
+  });
+});
+
+document.querySelectorAll('[data-moment]').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('[data-moment]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');
+    quizState.moment = btn.dataset.moment;
+    setTimeout(()=>showStage(2), 250);
+  });
+});
+
+document.querySelectorAll('[data-mood]').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('[data-mood]').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');
+    quizState.mood = btn.dataset.mood;
+    setTimeout(()=>showResult(), 250);
+  });
+});
+
+document.getElementById('quizBack').addEventListener('click', ()=>{
+  if(currentStage>0) showStage(currentStage-1);
+});
+document.getElementById('quizReset').addEventListener('click', resetQuiz);
+
+function recommend(){
+  const candidates = PRODUCTS.filter(p=>p.family===quizState.family);
+  if(candidates.length===1) return candidates[0];
+  return candidates.find(p=>p.mood===quizState.mood)
+      || candidates.find(p=>p.moment===quizState.moment)
+      || candidates[0];
+}
+
+function showResult(){
+  const p = recommend();
+  document.getElementById('resultBottle').innerHTML = bottleSvg(p.family, 120);
+  document.getElementById('resultFamily').textContent = p.familyLabel;
+  document.getElementById('resultName').textContent = p.name;
+  document.getElementById('resultDesc').textContent = p.desc;
+  document.getElementById('rNotesTop').textContent = p.notes.top;
+  document.getElementById('rNotesHeart').textContent = p.notes.heart;
+  document.getElementById('rNotesBase').textContent = p.notes.base;
+  document.getElementById('resultPrice').textContent = `$${p.price}`;
+  document.getElementById('resultAdd').onclick = ()=>addToCart(p.id);
+
+  stages.forEach(id=>document.getElementById(id).classList.remove('active'));
+  document.getElementById('quizPlaceholder').style.display = 'none';
+  document.getElementById('stageResult').classList.add('active');
+  document.getElementById('quizBack').style.visibility = 'hidden';
+  document.getElementById('quizReset').style.visibility = 'visible';
+  ['tr1','tr2','tr3'].forEach(id=>document.getElementById(id).classList.add('active'));
+}
+
+function resetQuiz(){
+  quizState = { family:null, moment:null, mood:null };
+  document.querySelectorAll('.wheel path, .choice-card').forEach(el=>el.classList.remove('selected'));
+  document.getElementById('quizReset').style.visibility = 'hidden';
+  showStage(0);
+}
+
+/* ============ CHECKOUT ============ */
+const checkoutModal = document.getElementById('checkoutModal');
+function openModal(){
+  if(cart.length===0){ showToast('Tu carrito está vacío'); return; }
+  renderSummary();
+  checkoutModal.classList.add('show');
+  overlay.classList.add('show');
+  document.getElementById('checkoutFormView').style.display = 'grid';
+  document.getElementById('checkoutFormView').style.gridTemplateColumns = '1.2fr 1fr';
+  document.getElementById('confirmView').classList.remove('show');
+}
+function closeModalFn(){
+  checkoutModal.classList.remove('show');
+  if(!drawer.classList.contains('show')) overlay.classList.remove('show');
+}
+document.getElementById('checkoutBtn').addEventListener('click', ()=>{ closeCartFn(); openModal(); });
+document.getElementById('closeModal').addEventListener('click', closeModalFn);
+
+function renderSummary(){
+  const container = document.getElementById('summaryItems');
+  container.innerHTML = cart.map(c=>{
+    const p = PRODUCTS.find(pr=>pr.id===c.id);
+    return `<div class="summary-item"><span>${p.name} × ${c.qty}</span><span>$${p.price*c.qty}</span></div>`;
+  }).join('');
+  document.getElementById('summaryTotal').textContent = `$${cartTotal()}`;
+}
+
+document.getElementById('checkoutForm').addEventListener('submit', e=>{
+  e.preventDefault();
+  const orderNum = 'ANIMA-' + Math.floor(10000 + Math.random()*89999);
+  document.getElementById('orderNumber').textContent = `PEDIDO #${orderNum}`;
+  document.getElementById('checkoutFormView').style.display = 'none';
+  document.getElementById('confirmView').classList.add('show');
+  cart = [];
+  renderCart();
+});
+document.getElementById('confirmClose').addEventListener('click', ()=>{
+  closeModalFn();
+});
+
+/* ============ NEWSLETTER ============ */
+document.getElementById('nlForm').addEventListener('submit', e=>{
+  e.preventDefault();
+  document.getElementById('nlNote').classList.add('show');
+  e.target.reset();
+});
+
+/* ============ INIT ============ */
+renderCart();
+</script>
+</body>
+</html>
